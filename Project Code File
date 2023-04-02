@@ -1,0 +1,1420 @@
+.data
+Star_Design_0:.asciiz"***********************************\n"
+Heading:.asciiz"New Bank Management System\n"
+Main_Input_1:.asciiz"Press 1 For Balance Enquiry\n"
+Main_Input_2:.asciiz"Press 2 For Cash Withdraw\n"
+Main_Input_3:.asciiz"Press 3 For Cash Deposit\n"
+Main_Input_4:.asciiz"Press 4 For Interbank Funds Transfer\n"
+Main_Input_5:.asciiz"Press 5 For Account Opening\n"
+Main_Input_6:.asciiz"Press 6 For Account Closing\n"
+Main_Input_7:.asciiz"Press 7 For Complain\n"
+Main_Input_8:.asciiz"Press 8 For Exit Program\n"
+Star_Design_1:.asciiz"***********************************\n"
+Main_Input_1_Account_Number:.asciiz"Enter Account Number For Balance Enquiry\n"
+Main_Output_1_Balance1:.asciiz"Your Current Balance: \n"
+Main_Output_1_Account_Number: .space 5
+filepath_bal: .space 50
+Main_Output_1_Balance2: .space 10
+path_bal: .asciiz"D:/Balance/"
+ext_bal: .asciiz"bal.txt"
+acc_del: .asciiz "$"
+ext: .ascii".txt"
+acc_num_with: .space 10
+filepath: .space 100
+Main_Input_2_Account_Number:.asciiz"Enter Account Number For Cash Widhraw\n"
+Main_Input_2_Cash_Withraw:.asciiz"Enter Amount You Want To Withraw\n"
+Main_Input_3_Account_Number:.asciiz"Enter Account Number For Cash Deposit\n"
+Main_Input_3_Cash_Deposit:.asciiz"Enter Amount You Want To Deposit\n"
+Main_Input_4_Account_Receiver:.asciiz"Enter Account Number Of Receiver\n"
+Main_Input_4_Account_Sender:.asciiz"Enter Account Number Of Sender\n"
+Main_Input_4_Amount_Sending:.asciiz"Enter Amount You Want To Send\n"
+Main_Input_5_User_Name:.asciiz"Enter The Name:\n"
+Main_Output_5_User_Name:.space 20
+Main_Input_5_User_CNIC:.asciiz"Enter The CNIC Number:\n"
+Main_Output_5_User_CNIC:.space 15
+Main_5_Acc_Path: .asciiz "D:/acc_num.txt"
+Main_acc_num1: .space 16
+Main_acc_num2: .space 16
+Acc_Info: .space 50
+ini_bal: .word 0
+ext_info: .asciiz"info.txt"
+filepath_info: .space 50
+Path_bal: .asciiz"D:/Balance/"
+Path_info: .asciiz"D:/coal project/"
+Main_Input_6_User_Num:.asciiz"Enter Account Number\n"
+Main_Output_6_User_Num: .space 16
+Main_Input_6_User_CNIC:.asciiz"Enter The CNIC Number:\n"
+Main_Output_6_User_CNIC: .space 15
+Error_Not_Found:.asciiz"Your Entered Number Not Available In Menu\n"
+Nl: .asciiz"\n"
+Path: .asciiz"D:/coal project/"
+Ext: .asciiz".txt"
+File_Path: .asciiz"D:/comp/Complain.txt"
+depo_input_q: .asciiz "Enter Your Account number: \n"
+path: .asciiz"D:/comp/"
+comp_ext: .asciiz"c.txt"
+file_path: .space 100
+Main_Input_5_User_Phone: .asciiz"Your phone number: \n"
+Main_Output_7_Complain: .space 120
+Main_Input_7_Complain:.asciiz"Your complain: "
+Main_Output_5_User_Phone: .space 12
+error: .asciiz "Wrong inout"
+fund_transfer_amount_input: .asciiz"Enter amount to transfer : \n"
+fund_transfer_amount: .space 10
+fund_transfer_from_intput: .asciiz"Enter your account number\n" 
+fund_transfer_from_output: .space 16
+fund_transfer_to_intput: .asciiz"Enter account number to transfer\n" 
+fund_transfer_to_output: .space 16
+trans_path: .space 50
+path1: .asciiz"D:/Balance/"
+bal_from: .space 10
+bal_from2: .space 10
+bal_to: .space 10
+with_amount: .space 15
+with_input: .asciiz "Enter the amount you want to withdrwal: \n"
+balance_with: .space 10
+filepath_bal2: .space 100
+depo_amount: .space 15
+depo_input: .asciiz "Enter the amount you want to deposit: \n"
+enq_out: .asciiz"\nYour current balance is: "
+balance_depo: .space 15
+acc_num_depo: .space 20
+.text
+Menu:
+li $v0,4
+la $a0,Star_Design_0
+syscall
+
+li $v0,4
+la $a0,Heading
+syscall
+
+li $v0,4
+la $a0,Main_Input_1
+syscall
+
+li $v0,4
+la $a0,Main_Input_2
+syscall
+
+li $v0,4
+la $a0,Main_Input_3
+syscall
+
+li $v0,4
+la $a0,Main_Input_4
+syscall
+
+li $v0,4
+la $a0,Main_Input_5
+syscall
+
+li $v0,4
+la $a0,Main_Input_6
+syscall
+
+li $v0,4
+la $a0,Main_Input_7
+syscall
+
+li $v0,4
+la $a0,Main_Input_8
+syscall
+
+li $v0,4
+la $a0,Star_Design_1
+syscall
+
+li $v0,5
+syscall
+move $t0,$v0
+
+beq $t0,1,Balance_Enquiry
+beq $t0,2,Cash_Withraw
+beq $t0,3,Cash_Deposit
+beq $t0,4,Funds_Transfer
+beq $t0,5,Account_Opening
+beq $t0,6,Account_Closing
+beq $t0,7,Complain_Register
+beq $t0,8,Exit
+bge $t0,9,Error
+
+Balance_Enquiry:
+Balance_En:
+li $v0,4
+la $a0,Main_Input_1_Account_Number
+syscall
+
+la $a0 , Main_Output_1_Account_Number
+li $a1 , 4
+li $v0 , 8
+syscall
+
+la $a1 filepath_bal
+la $a0,path_bal
+la $a2,Main_Output_1_Account_Number
+la $a3,ext_bal
+
+be1:
+lb $t0, 0($a0)          
+beq $t0, $0, be2    
+sb $t0, 0($a1)         
+addi $a0, $a0, 1       
+addi $a1, $a1, 1        
+j be1
+    
+be2:
+lb $t0, 0($a2)         
+beq $t0, $0, be3    
+sb $t0, 0($a1)         
+addi $a2, $a2, 1       
+addi $a1, $a1, 1      
+j be2
+
+be3:
+lb $t0, 0($a3)          
+beq $t0, $0, fileread_balance   
+sb $t0, 0($a1)          
+addi $a3, $a3, 1      
+addi $a1, $a1, 1        
+j be3
+
+fileread_balance:
+li $v0, 13 
+la $a0, filepath_bal
+li $a1, 0 
+syscall
+
+move $s0, $v0 
+li $v0, 14
+move $a0, $s0
+la $a1, Main_Output_1_Balance2 
+li $a2, 5
+syscall
+
+li $v0, 16 
+move $a0, $s0
+    
+exit:
+
+li $v0, 4
+la $a0, Main_Output_1_Balance1
+syscall
+del_check:
+
+li $v0, 4 
+la $a0, Main_Output_1_Balance2 
+syscall
+
+li $v0, 4 
+la $a0, Nl
+j Menu
+
+Cash_Withraw:
+li $v0,4
+la $a0,depo_input_q
+syscall
+
+
+la $a0 , acc_num_with	
+li $a1 , 4
+li $v0 , 8
+syscall
+
+la $a1 filepath_bal
+la $a0,path_bal
+la $a2,acc_num_with
+la $a3,ext_bal
+
+wt1:
+lb $t0, 0($a0)         
+beq $t0, $0, wt2       
+sb $t0, 0($a1)        
+addi $a0, $a0, 1      
+addi $a1, $a1, 1      
+j wt1
+    
+wt2:
+lb $t0, 0($a2)          
+beq $t0, $0, wt3   
+sb $t0, 0($a1)          
+addi $a2, $a2, 1        
+addi $a1, $a1, 1     
+j wt2
+
+wt3:
+lb $t0, 0($a3)         
+beq $t0, $0, read_balance_with   
+sb $t0, 0($a1)          
+addi $a3, $a3, 1       
+addi $a1, $a1, 1       
+j wt3
+
+read_balance_with:
+li $v0, 13 
+la $a0, filepath_bal 
+li $a1, 0 
+syscall
+
+move $s0, $v0 
+li $v0, 14 
+move $a0, $s0
+la $a1, balance_with 
+li $a2, 5 
+syscall
+
+li $v0, 16
+move $a0, $s0
+syscall
+
+li $v0,4
+la $a0,balance_with
+syscall
+
+la $t0,balance_with
+li $t1,0
+
+digicount_with:
+lb $a0,0($t0)
+beqz $a0,l1_with
+add $t0,$t0,1 
+add $t1,$t1,1
+j digicount_with
+
+l1_with:
+sub $t1,$t1,1
+li $t2,0
+li $t3,1
+
+mull_with:
+beq $t2,$t1,l2_with
+mul $t3,$t3,10 
+add $t2,$t2,1
+j mull_with
+
+l2_with:
+la $t0,balance_with
+li $t4,0
+move $t6,$t3
+
+toint1_with:
+lb $t2,0($t0)
+beqz $t2,withdrwal
+sub $t2,$t2,48
+mul $t2,$t2,$t3
+add $t4,$t2,$t4
+div $t3,$t3,10
+add $t0,$t0,1
+j toint1_with
+
+withdrwal:
+li $v0,4
+la $a0,enq_out
+syscall
+
+li $v0,1
+move $a0,$t4
+syscall
+li $v0,4
+la $a0,with_input
+syscall
+
+li $v0,5
+syscall
+move $t5,$v0
+
+sub $t4,$t4,$t5
+
+li $v0,1
+move $a0,$t4
+syscall
+move $t1,$t4
+
+with_to_string_depo:
+la $a1,with_amount
+move $t3,$t6
+with_back_make:
+beq $t1,$zero,new_path_with
+
+div $t2,$t1,$t3
+move $t4,$t2
+add $t2,$t2,48
+sb $t2,0($a1)
+mul $t5,$t4,$t3
+sub $t1,$t1,$t5
+add $a1,$a1,1
+div $t3,$t3,10
+j with_back_make
+
+new_path_with:
+la $a1 filepath_bal2
+la $a0,path_bal
+la $a2,acc_num_with
+la $a3,ext_bal
+
+wt21:
+lb $t0, 0($a0)        
+beq $t0, $0, wt22    
+sb $t0, 0($a1)       
+addi $a0, $a0, 1       
+addi $a1, $a1, 1       
+j wt21
+    
+wt22:
+lb $t0, 0($a2)         
+beq $t0, $0, wt23    
+sb $t0, 0($a1)         
+addi $a2, $a2, 1       
+addi $a1, $a1, 1      
+j wt22
+    
+wt23:
+lb $t0, 0($a3)          
+beq $t0, $0, write_back_with  
+sb $t0, 0($a1)          
+addi $a3, $a3, 1        
+addi $a1, $a1, 1       
+j wt23
+
+write_back_with:
+li $v0, 13
+la $a0, filepath_bal2 
+li $a1, 1 
+syscall
+
+move $s0, $v0
+li $v0, 15 
+move $a0, $s0 
+la $a1, with_amount 
+li $a2, 5 
+syscall
+
+li $v0, 16 
+move $a0, $s0 
+syscall
+j Menu
+
+Cash_Deposit:
+li $v0,4
+la $a0,depo_input_q
+syscall
+
+la $a0 , acc_num_depo	
+li $a1 , 4
+li $v0 , 8
+syscall
+
+la $a1 filepath_bal
+la $a0,path_bal
+la $a2,acc_num_depo
+la $a3,ext_bal
+
+d1:
+lb $t0, 0($a0)         
+beq $t0, $0, d2   
+sb $t0, 0($a1)          
+addi $a0, $a0, 1        
+addi $a1, $a1, 1       
+j d1
+    
+d2:
+lb $t0, 0($a2)         
+beq $t0, $0, d3    
+sb $t0, 0($a1)          
+addi $a2, $a2, 1        
+addi $a1, $a1, 1        
+j d2
+    
+d3:
+lb $t0, 0($a3)         
+beq $t0, $0, read_balance_depo  
+sb $t0, 0($a1)          
+addi $a3, $a3, 1        
+addi $a1, $a1, 1        
+j d3
+
+read_balance_depo:
+li $v0, 13 
+la $a0, filepath_bal 
+li $a1, 0 
+syscall
+
+move $s0, $v0
+li $v0, 14 
+move $a0, $s0 
+la $a1, balance_depo 
+li $a2, 5 
+syscall
+
+li $v0, 16 
+move $a0, $s0
+syscall
+
+li $v0,4
+la $a0,balance_depo
+syscall
+
+
+la $t0,balance_depo
+li $t1,0
+
+digicount_depo:
+lb $a0,0($t0)
+beqz $a0,l1_depo
+add $t0,$t0,1 
+add $t1,$t1,1
+j digicount_depo
+
+l1_depo:
+sub $t1,$t1,1
+li $t2,0
+li $t3,1
+
+mull_depo:
+beq $t2,$t1,l2_depo
+mul $t3,$t3,10 
+add $t2,$t2,1
+j mull_depo
+
+l2_depo:
+la $t0,balance_depo
+li $t4,0
+move $t6,$t3
+
+toint1_depo:
+lb $t2,0($t0)
+beqz $t2,deposit
+sub $t2,$t2,48
+mul $t2,$t2,$t3
+add $t4,$t2,$t4
+div $t3,$t3,10
+add $t0,$t0,1
+j toint1_depo
+
+deposit:
+li $v0,4
+la $a0,enq_out
+syscall
+
+li $v0,1
+move $a0,$t4
+syscall
+
+li $v0,4
+la $a0,depo_input
+syscall
+
+li $v0,5
+syscall
+move $t5,$v0
+
+add $t4,$t4,$t5
+
+li $v0,1
+move $a0,$t4
+syscall
+move $t1,$t4
+
+depo_to_string_depo:
+la $a1,depo_amount
+move $t3,$t6
+
+depo_back_make:
+beq $t1,$zero,new_path_depo
+div $t2,$t1,$t3
+move $t4,$t2
+add $t2,$t2,48
+sb $t2,0($a1)
+mul $t5,$t4,$t3
+sub $t1,$t1,$t5
+add $a1,$a1,1
+div $t3,$t3,10
+j depo_back_make
+
+new_path_depo:
+la $a1 filepath_bal2
+la $a0,path_bal
+la $a2,acc_num_depo
+la $a3,ext_bal
+
+d21:
+lb $t0, 0($a0)          
+beq $t0, $0, d22   
+sb $t0, 0($a1)          
+addi $a0, $a0, 1        
+addi $a1, $a1, 1       
+j d21
+    
+d22:
+lb $t0, 0($a2)          
+beq $t0, $0, d23    
+sb $t0, 0($a1)          
+addi $a2, $a2, 1        
+addi $a1, $a1, 1        
+j d22
+    
+d23:
+lb $t0, 0($a3)         
+beq $t0, $0, write_back_depo   
+sb $t0, 0($a1)         
+addi $a3, $a3, 1        
+addi $a1, $a1, 1       
+j d23
+
+write_back_depo:
+li $v0, 13 
+la $a0, filepath_bal2 
+li $a1, 1
+syscall
+
+move $s0, $v0 
+li $v0, 15 
+move $a0, $s0 
+la $a1, depo_amount 
+li $a2, 5
+syscall
+
+li $v0, 16 
+move $a0, $s0 
+syscall
+j Menu
+
+Funds_Transfer:
+li $v0,4
+la $a0,fund_transfer_from_intput
+syscall
+
+la $a0 , fund_transfer_from_output
+li $a1 , 4
+li $v0 , 8
+syscall
+
+li $v0,4
+la $a0,fund_transfer_to_intput
+syscall
+
+la $a0 , fund_transfer_to_output
+li $a1 , 4
+li $v0 , 8
+syscall
+
+li $v0,4
+la $a0,fund_transfer_amount_input
+syscall
+
+li $v0,5
+syscall
+move $t5,$v0
+move $s2,$t5
+
+la $a1 trans_path
+la $a0,path1
+la $a2,fund_transfer_from_output
+la $a3,ext_bal
+
+    ft1:
+    lb $t0, 0($a0)          # $t0 = string1[i]
+    beq $t0, $0, ft2    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a0, $a0, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+    j ft1
+    
+    ft2:
+
+    lb $t0, 0($a2)          # $t0 = string1[i]
+    beq $t0, $0, ft3    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a2, $a2, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+
+    j ft2
+    
+    ft3:
+    lb $t0, 0($a3)          # $t0 = string1[i]
+    beq $t0, $0, fileread_balance_trans   # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a3, $a3, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+   
+    j ft3
+fileread_balance_trans:
+li $v0, 13 # open file
+la $a0, trans_path # file name loading
+li $a1, 0 # reading file
+syscall
+move $s0, $v0 # file descriptor
+li $v0, 14 # read from file
+move $a0, $s0 # file descriptor
+la $a1, bal_from # buffer holding string of whole file
+li $a2, 5 # size of buffer
+syscall
+li $v0, 16 # close file
+move $a0, $s0
+syscall
+
+la $t0,bal_from
+li $t1,-1
+digicount_ft:
+lb $a0,0($t0)
+beqz $a0,l1_ft
+add $t0,$t0,1 # t1 digit count
+add $t1,$t1,1
+j digicount_ft
+l1_ft:
+li $t2,0
+li $t3,1
+mull_ft:
+beq $t2,$t1,l2_ft
+mul $t3,$t3,10 #t3 multioperand
+add $t2,$t2,1
+j mull_ft
+l2_ft:
+la $t0,bal_from
+li $t4,0
+move $t6,$t3
+toint1_ft:
+lb $t2,0($t0)
+beqz $t2,trans
+sub $t2,$t2,48
+mul $t2,$t2,$t3
+add $t4,$t2,$t4
+div $t3,$t3,10
+add $t0,$t0,1
+j toint1_ft
+
+trans:
+blt $t4,$t5,error_ft
+sub $t4,$t4,$t5
+move $t1,$t4
+
+###############################################################
+
+bal_from_to_string_ft:
+la $a1,bal_from2
+move $t3,$t6
+bal_back_make_ft:
+beq $t1,$zero,new_path_ft
+
+div $t2,$t1,$t3
+
+
+move $t4,$t2
+add $t2,$t2,48
+
+sb $t2,0($a1)
+mul $t5,$t4,$t3
+
+sub $t1,$t1,$t5
+
+add $a1,$a1,1
+
+div $t3,$t3,10
+j bal_back_make_ft
+
+#############################
+new_path_ft:
+
+la $a1 trans_path
+la $a0,path1
+la $a2,fund_transfer_from_output
+la $a3,ext_bal
+
+    ft21:
+    lb $t0, 0($a0)          # $t0 = string1[i]
+    beq $t0, $0, ft22    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a0, $a0, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+    j ft21
+    
+    ft22:
+
+    lb $t0, 0($a2)          # $t0 = string1[i]
+    beq $t0, $0, ft23    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a2, $a2, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+
+    j ft22
+    
+    ft23:
+    lb $t0, 0($a3)          # $t0 = string1[i]
+    beq $t0, $0, filewrite_balance_trans   # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a3, $a3, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+   
+    j ft23
+filewrite_balance_trans:
+li $v0, 13 # open file
+la $a0, trans_path # loading file name
+li $a1, 1 # mode of writing in file
+syscall
+move $s0, $v0 # file descriptor
+li $v0, 15 # write in file
+move $a0, $s0 #file descriptor
+la $a1, bal_from2 # word u want to print
+li $a2, 10 # size of word
+syscall
+li $v0, 16 # close file
+move $a0, $s0 # file descriptor
+syscall
+#####################################################################
+######################################################################
+#########################################################################
+la $a1 trans_path
+la $a0,path1
+la $a2,fund_transfer_to_output
+la $a3,ext_bal
+
+    ft31:
+    lb $t0, 0($a0)          # $t0 = string1[i]
+    beq $t0, $0, ft32    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a0, $a0, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+    j ft31
+    
+    ft32:
+
+    lb $t0, 0($a2)          # $t0 = string1[i]
+    beq $t0, $0, ft33    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a2, $a2, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+
+    j ft32
+    
+    ft33:
+    lb $t0, 0($a3)          # $t0 = string1[i]
+    beq $t0, $0, fileread_balance_trans1   # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a3, $a3, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+   
+    j ft33
+
+fileread_balance_trans1:
+li $v0, 13 # open file
+la $a0, trans_path # file name loading
+li $a1, 0 # reading file
+syscall
+move $s0, $v0 # file descriptor
+li $v0, 14 # read from file
+move $a0, $s0 # file descriptor
+la $a1, bal_to # buffer holding string of whole file
+li $a2, 5 # size of buffer
+syscall
+li $v0, 16 # close file
+move $a0, $s0
+syscall
+la $t0,bal_to
+li $t1,0
+digicount_bal_to_ft:
+lb $a0,0($t0)
+beqz $a0,bal1_ft
+add $t0,$t0,1 # t1 digit count
+add $t1,$t1,1
+j digicount_bal_to_ft
+bal1_ft:
+sub $t1,$t1,1
+li $t2,0
+li $t3,1
+mull_bal_ft:
+beq $t2,$t1,l22_ft
+mul $t3,$t3,10 #t3 multioperand
+add $t2,$t2,1
+j mull_bal_ft
+l22_ft:
+la $t0,bal_to
+li $t4,0
+move $t6,$t3
+toint_bal_ft:
+lb $t2,0($t0)
+beqz $t2,decri_bal_ft
+sub $t2,$t2,48
+mul $t2,$t2,$t3
+add $t4,$t2,$t4
+div $t3,$t3,10
+add $t0,$t0,1
+j toint_bal_ft
+
+decri_bal_ft:
+li $t7,0
+add $t7,$t4,$s2
+move $t1,$t7
+syscall
+li $v0,1
+move $a0,$s2
+syscall
+bal_to_to_string:
+la $a1,bal_to
+move $t3,$t6
+bal_back_make2:
+beq $t1,$zero,new_path2
+
+div $t2,$t1,$t3
+
+
+move $t4,$t2
+add $t2,$t2,48
+
+sb $t2,0($a1)
+mul $t5,$t4,$t3
+
+sub $t1,$t1,$t5
+
+add $a1,$a1,1
+
+div $t3,$t3,10
+j bal_back_make2
+
+#############################
+new_path2:
+la $a1 trans_path
+la $a0,path1
+la $a2,fund_transfer_to_output
+la $a3,ext_bal
+
+    bt21:
+    lb $t0, 0($a0)          # $t0 = string1[i]
+    beq $t0, $0, bt22    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a0, $a0, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+    j bt21
+    
+    bt22:
+
+    lb $t0, 0($a2)          # $t0 = string1[i]
+    beq $t0, $0, bt23    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a2, $a2, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+
+    j bt22
+    
+    bt23:
+    lb $t0, 0($a3)          # $t0 = string1[i]
+    beq $t0, $0, filewrite_balance_trans2   # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a3, $a3, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+   
+    j bt23
+filewrite_balance_trans2:
+li $v0, 13 # open file
+la $a0, trans_path # loading file name
+li $a1, 1 # mode of writing in file
+syscall
+move $s0, $v0 # file descriptor
+li $v0, 15 # write in file
+move $a0, $s0 #file descriptor
+la $a1, bal_to # word u want to print
+li $a2, 5 # size of word
+syscall
+li $v0, 16 # close file
+move $a0, $s0 # file descriptor
+syscall
+
+ j Menu
+error_ft:
+li $v0,4
+la $a0,error
+syscall
+
+j Menu
+
+Account_Opening:
+####################################
+li $v0, 13 # open file
+la $a0, Main_5_Acc_Path # file name loading
+li $a1, 0 # reading file
+syscall
+move $s0, $v0 # file descriptor
+li $v0, 14 # read from file
+move $a0, $s0 # file descriptor
+la $a1, Main_acc_num1 # buffer holding string of whole file
+li $a2, 5 # size of buffer
+syscall
+li $v0, 16 # close file
+move $a0, $s0
+syscall
+la $t0,Main_acc_num1
+li $t1,0
+digicount:
+lb $a0,0($t0)
+beqz $a0,l1
+add $t0,$t0,1
+add $t1,$t1,1
+j digicount
+l1:
+sub $t1,$t1,1
+li $t2,0
+li $t3,1
+mull:
+beq $t2,$t1,l2
+mul $t3,$t3,10
+add $t2,$t2,1
+j mull
+l2:
+la $t0,Main_acc_num1
+li $t4,0
+toint1:
+lb $t2,0($t0)
+beqz $t2,incri
+sub $t2,$t2,48
+mul $t2,$t2,$t3
+add $t4,$t2,$t4
+div $t3,$t3,10
+add $t0,$t0,1
+j toint1
+																																																																																																													
+incri:
+add $t4,$t4,1
+move $t1,$t4
+#############################
+acc_num_back:
+la $a1,Main_acc_num2
+li $t3,100
+write_back_make:
+beq $t1,$zero,write_back
+
+div $t2,$t1,$t3
+
+
+move $t4,$t2
+add $t2,$t2,48
+
+sb $t2,0($a1)
+mul $t5,$t4,$t3
+
+sub $t1,$t1,$t5
+
+add $a1,$a1,1
+
+div $t3,$t3,10
+j write_back_make
+
+##############################
+write_back:
+li $v0, 13 # open file
+la $a0, Main_5_Acc_Path # loading file name
+li $a1, 1 # mode of writing in file
+syscall
+move $s0, $v0 # file descriptor
+li $v0, 15 # write in file
+move $a0, $s0 #file descriptor
+la $a1, Main_acc_num2 # word u want to print
+li $a2, 5 # size of word
+syscall
+li $v0, 16 # close file
+move $a0, $s0 # file descriptor
+syscall
+
+
+####################################
+li $v0,4
+la $a0,Main_Input_5_User_Name
+syscall
+
+la $a0,Main_Output_5_User_Name
+li $a1,20
+li $v0,8
+syscall
+
+li $v0,4
+la $a0,Nl
+syscall
+
+li $v0,4
+la $a0,Main_Input_5_User_Phone
+syscall
+
+la $a0,Main_Output_5_User_Phone
+li $a1,12
+li $v0,8
+syscall
+
+li $v0,4
+la $a0,Nl
+syscall
+
+li $v0,4
+la $a0,Main_Input_5_User_CNIC
+syscall
+
+la $a0,Main_Output_5_User_CNIC
+li $a1,14
+li $v0,8
+syscall
+
+li $v0,4
+la $a0,Nl
+syscall
+
+info_combine:
+
+la $a1,Acc_Info
+
+la $a0,Main_Output_5_User_Name
+str1:
+    lb $t0, 0($a0)          # $t0 = string1[i]
+    beq $t0, $0, load1    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a0, $a0, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+j str1
+
+load1:
+addi $a1,$a1,1
+la $a0,Nl
+lb $t0,0($a0)
+sb $t0,0($a1)
+addi $a1,$a1,1
+la $a0,Main_Output_5_User_Phone
+str2:
+    lb $t0, 0($a0)          # $t0 = string1[i]
+    beq $t0, $0, load2    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a0, $a0, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+j str2
+load2:
+addi $a1,$a1,1
+la $a0,Nl
+lb $t0,0($a0)
+sb $t0,0($a1)
+addi $a1,$a1,1
+la $a0,Main_Output_5_User_CNIC
+str3:
+    lb $t0, 0($a0)          # $t0 = string1[i]
+    beq $t0, $0, file_creation    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a0, $a0, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+j str3
+
+
+
+file_creation:
+
+
+la $a1 filepath_info
+la $a0,Path_info
+la $a2,Main_acc_num2
+la $a3,ext_info
+
+    p1:
+    lb $t0, 0($a0)          # $t0 = string1[i]
+    beq $t0, $0, p2    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a0, $a0, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+    j p1
+    
+    p2:
+
+    lb $t0, 0($a2)          # $t0 = string1[i]
+    beq $t0, $0, p3    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a2, $a2, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+   
+    j p2
+    
+    p3:
+
+    lb $t0, 0($a3)          # $t0 = string1[i]
+    beq $t0, $0, filewrite_info   # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a3, $a3, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+   
+    j p3
+
+
+filewrite_info:
+
+li $v0, 13 # open file
+la $a0, filepath_info # loading file name
+li $a1, 1 # mode of writing in file
+syscall
+move $s0, $v0 # file descriptor
+li $v0, 15 # write in file
+move $a0, $s0 #file descriptor
+la $a1, Acc_Info # word u want to print
+li $a2, 50 # size of word
+syscall
+li $v0, 16 # close file
+move $a0, $s0 # file descriptor
+syscall
+
+
+bal_file:
+
+la $a1 filepath_bal
+la $a0,Path_bal
+la $a2,Main_acc_num2
+la $a3,ext_bal
+
+    b1:
+    lb $t0, 0($a0)          # $t0 = string1[i]
+    beq $t0, $0, b2    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a0, $a0, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+    j b1
+    
+    b2:
+
+    lb $t0, 0($a2)          # $t0 = string1[i]
+    beq $t0, $0, b3    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a2, $a2, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+   
+    j b2
+    
+    b3:
+
+    lb $t0, 0($a3)          # $t0 = string1[i]
+    beq $t0, $0, filewrite_bal   # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a3, $a3, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+   
+    j b3
+
+filewrite_bal:
+
+li $t1,0
+add $t0,$t0,48
+sb $t0,ini_bal
+
+li $v0, 13 # open file
+la $a0, filepath_bal # loading file name
+li $a1, 1 # mode of writing in file
+syscall
+move $s0, $v0 # file descriptor
+li $v0, 15 # write in file
+move $a0, $s0 #file descriptor
+la $a1, ini_bal # word u want to print
+li $a2, 1 # size of word
+syscall
+li $v0, 16 # close file
+move $a0, $s0 # file descriptor
+syscall
+#######
+#################################################################
+###################################################################
+#################################################################
+
+j Menu
+
+Account_Closing:
+######################################################
+li $v0,4
+la $a0,Main_Input_6_User_Num
+syscall
+
+la $a0,Main_acc_num1
+li $a1,4
+li $v0,8
+syscall
+
+li $v0,4
+la $a0,Nl
+syscall
+
+li $v0,4
+la $a0,Main_Input_5_User_CNIC
+syscall
+
+la $a0,Main_Output_5_User_CNIC
+li $a1,14
+li $v0,8
+syscall
+
+li $v0,4
+la $a0,Nl
+syscall
+############################
+la $a1,acc_del
+
+la $a1 filepath_info
+la $a0,Path_info
+la $a2,Main_acc_num1
+la $a3,ext_info
+
+acc1:
+lb $t0, 0($a0)          
+beq $t0, $0, acc2    
+sb $t0, 0($a1)          
+addi $a0, $a0, 1        
+addi $a1, $a1, 1        
+j acc1
+    
+    acc2:
+
+    lb $t0, 0($a2)          # $t0 = string1[i]
+    beq $t0, $0, acc3    # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a2, $a2, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+   
+    j acc2
+    
+    acc3:
+
+    lb $t0, 0($a3)          # $t0 = string1[i]
+    beq $t0, $0, filedel_info   # if end of string1, go to string2
+    sb $t0, 0($a1)          # stringconcat[i] = string1[i]
+    addi $a3, $a3, 1        # increment index into string1
+    addi $a1, $a1, 1        # increment index into stringconcat
+   
+    j acc3
+
+
+
+filedel_info:
+li $v0, 13
+la $a0, filepath_info 
+li $a1, 1 
+syscall
+
+move $s0, $v0 
+li $v0, 15 
+move $a0, $s0
+la $a1, acc_del 
+li $a2, 50
+syscall
+
+li $v0, 16
+move $a0, $s0 
+syscall
+
+la $a1 filepath_bal
+la $a0,Path_bal
+la $a2,Main_acc_num1
+la $a3,ext_bal
+
+bacc1:
+lb $t0, 0($a0)         
+beq $t0, $0, bacc2    
+sb $t0, 0($a1)          
+addi $a0, $a0, 1        
+addi $a1, $a1, 1        
+j bacc1
+    
+bacc2:
+lb $t0, 0($a2)          
+beq $t0, $0, bacc3   
+sb $t0, 0($a1)         
+addi $a2, $a2, 1        
+addi $a1, $a1, 1        
+j bacc2
+    
+bacc3:
+lb $t0, 0($a3)          
+beq $t0, $0, filedel_bal   
+sb $t0, 0($a1)        
+addi $a3, $a3, 1        
+addi $a1, $a1, 1      
+j bacc3
+
+filedel_bal:
+
+li $v0, 13 
+la $a0, filepath_bal 
+li $a1, 1 
+syscall
+
+move $s0, $v0 
+li $v0, 15 
+move $a0, $s0 
+la $a1, acc_del 
+li $a2, 5 
+syscall
+
+li $v0, 16 
+move $a0, $s0 
+syscall
+j Menu
+
+Complain_Register:
+li $v0,4
+la $a0,Main_Input_5_User_Phone
+syscall
+
+la $a0 Main_Output_5_User_Phone
+li $a1,12
+li $v0,8
+syscall
+
+li $v0,4
+la $a0,Main_Input_7_Complain
+syscall
+
+la $a0,Main_Output_7_Complain
+li $a1,120
+li $v0,8
+syscall
+
+la $a1 file_path
+la $a0,path
+la $a2,Main_Output_5_User_Phone
+la $a3,ext
+
+comp1:
+lb $t0, 0($a0)          
+beq $t0, $0, comp2   
+sb $t0, 0($a1)         
+addi $a0, $a0, 1    
+addi $a1, $a1, 1       
+j comp1 
+   
+comp2:
+lb $t0, 0($a2)          
+beq $t0, $0, comp3   
+sb $t0, 0($a1)        
+addi $a2, $a2, 1        
+addi $a1, $a1, 1        
+j comp2
+    
+comp3:
+lb $t0, 0($a3)          
+beq $t0, $0, comp   
+sb $t0, 0($a1)          
+addi $a3, $a3, 1        
+addi $a1, $a1, 1        
+j comp3
+
+comp:
+li $v0, 13 
+la $a0, file_path
+li $a1, 1 
+syscall
+
+move $s0, $v0
+li $v0, 15 
+move $a0, $s0 
+la $a1, Main_Output_7_Complain 
+li $a2, 120 
+syscall
+
+li $v0, 16 
+move $a0, $s0 
+syscall
+j Menu
+
+Error:
+li $v0,4
+la $a0,Error_Not_Found
+syscall
+j Menu
+
+Exit:
+li $v0,10
+syscall
